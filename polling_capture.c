@@ -3,6 +3,8 @@
 #include <time.h>
 #include "pin_config_lib.h"
 
+void helper(int state, int count, char gpio_pin_number, char pwmchip, char channel, char period, char duty_cycle, char pin_number)
+
 int main(){
     // configure pin P8_8 as input with internal pull-up enabled[Button 0]
     char gpio_pin_number_P8_8[32] = "P8_08";
@@ -65,23 +67,22 @@ int main(){
 
     // event detected
     // P8_8
-    if( state_P8_8 == 0 ){
-    count_P8_8++;
-    printf("Pin%s Interrupted %lu\n",gpio_pin_number_P8_8 , count_P8_8);
-    start_pwm(pin_number, pwmchip, channel, periodP8_8, duty_cycle_P8_8);
-    sleep(5);
-    stop_pwm(pin_number, pwmchip, channel);
-    }
+    helper(state_P8_8, count_P8_8, gpio_pin_number_P8_8, pwmchip, channel, periodP8_8, duty_cycle_P8_8, pin_number);
 
     // P8_9
-    if( state_P8_9 == 0 ){
-        count_P8_9++;
-        printf("Pin%s Interrupted %lu\n",gpio_pin_number_P8_9 , count_P8_9);
-        start_pwm(pin_number, pwmchip, channel, periodP8_9, duty_cycle_P8_9);
-        sleep(5);
-        stop_pwm(pin_number, pwmchip, channel);
-        }
+    helper(state_P8_9, count_P8_9, gpio_pin_number_P8_9, pwmchip, channel, periodP8_9, duty_cycle_P8_9, pin_number);
+
 
     }
     return 0;
+}
+
+void helper(int state, int count, char gpio_pin_number, char pwmchip, char channel, char period, char duty_cycle, char pin_number){
+    if( state == 0 ){
+        count++;
+        printf("Pin %s Interrupted %lu\n", gpio_pin_number, count);
+        start_pwm(pin_number, pwmchip, channel, period, duty_cycle);
+        sleep(5);
+        stop_pwm(pin_number, pwmchip, channel);
+        }
 }

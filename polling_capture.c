@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <time.h>
+#include "pin_config_lib.h"
 
 int main(){
     // configure pin P8_8 as input with internal pull-up enabled[Button 0]
